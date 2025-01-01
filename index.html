@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List</title>
+  <link href="dist/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mx-auto w-1/2 p-4">
+    <h1 class="text-2xl text-bold">To-Do List</h1>
+    <nav class="my-2">
+        <ul class="tab-bar flex">
+            <li class="tab-item px-2"><a href="#all">All</a></li>
+            <li class="tab-item px-2"><a href="#active">Active</a></li>
+            <li class="tab-item px-2"><a href="#completed">Completed</a></li>
+        </ul>
+    </nav>
+    <div class="text-end">
+      <button id="add-button" class="bg-green-500 text-white p-1 rounded-sm ms-2 my-2">Add New Task</button>
+    </div>
+    <div class="border shadow-md p-2 my-2 hidden" id="edit-form">
+        <div class="mb-2">
+            <label for="">Task Name</label>
+            <input type="text" name="" id="todo-input" class="border p-1 rounded-sm w-full">
+        </div>
+        <div class="mb-2">
+            <label for="">Task Description</label>
+            <textarea name="" id="todo-description" class="border p-1 rounded-sm w-full"></textarea>
+        </div>
+        <div class="mb-2">
+            <label for="">Priority</label>
+            <select name="" id="todo-priority" class="border p-1 rounded-sm w-full">
+                <option value="">Choose Priority</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+        </div>
+        <div class="flex justify-end gap-4">
+            <button class="bg-green-500 text-white px-4 py-1 rounded-sm" id="form-save">Save</button>
+            <button class="bg-red-500 text-white px-4 py-1 rounded-sm" id="form-cancel">Cancel</button>
+        </div>
+    </div>
+    <ul id="todo-list">
+    </ul>
+    <div id="task-detail"></div>
+  </div>
+  <script src="/dist/app.js"></script>
+</body>
+</html>
