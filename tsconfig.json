@@ -3,7 +3,11 @@
     "target": "ES5",
     "module": "ES6",
     "strict": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "moduleResolution": "nodenext",
+    "paths": {
+      "undici-types": ["node_modules/undici/types"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
