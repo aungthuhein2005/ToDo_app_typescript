@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
     "target": "ESNext",               // Use ESNext for modern JavaScript features
-    "module": "ESNext",               // Use ES modules
+    "module": "NodeNext",             // Use NodeNext for module resolution
     "strict": true,
     "outDir": "./dist",
-    "moduleResolution": "node",       // Default to node module resolution
+    "moduleResolution": "NodeNext",   // Default to node module resolution
     "esModuleInterop": true,          // Enables interoperability between CommonJS and ES Modules
     "skipLibCheck": true,             // Skip checking libraries to avoid unnecessary errors
-    "resolveJsonModule": true         // Allow importing JSON modules if needed
+    "resolveJsonModule": true,        // Allow importing JSON modules if needed
+    "baseUrl": ".",                   // Set baseUrl for paths
+    "paths": {
+      "undici-types": ["node_modules/undici/types"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
