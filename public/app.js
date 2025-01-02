@@ -38,6 +38,9 @@ const addForm = document.querySelector("#edit-form");
 const formSave = document.querySelector("#form-save");
 const formCancel = document.querySelector("#form-cancel");
 const taskDetail = document.querySelector("#task-detail");
+const projectInput = document.querySelector("#project-input");
+const projectDescription = document.querySelector("#project-description");
+const projectPriority = document.querySelector("#project-priority");
 const projectForm = document.getElementById("project-form");
 const projectSaveButton = document.getElementById("project-save");
 const projectCancelButton = document.getElementById("project-cancel");
@@ -74,7 +77,7 @@ addButton.addEventListener("click", () => {
 formSave.addEventListener("click", () => {
     const task = taskInput.value.trim();
     const description = descriptionInput.value.trim();
-    const priority = priorityInput.value.trim(); // Corrected the typo from 'priorityIpunt'
+    const priority = priorityInput.value; // Corrected the typo from 'priorityIpunt'
     if (task) {
         const newTodo = new Task(Date.now(), task, description, priority, // Corrected the typo from 'proiority'
         false);
@@ -83,7 +86,7 @@ formSave.addEventListener("click", () => {
         saveTodos();
         taskInput.value = "";
         descriptionInput.value = "";
-        priorityInput.value = ""; // Corrected the typo from 'priorityIpunt'
+        priorityInput.selectedIndex = 0; // Reset to default value
         addForm.classList.toggle("hidden");
     }
 });
@@ -97,17 +100,17 @@ addProjectButton.addEventListener("click", () => {
     projectForm.classList.toggle("hidden");
 });
 projectSaveButton.addEventListener("click", () => {
-    const task = taskInput.value.trim();
-    const description = descriptionInput.value.trim();
-    const priority = priorityInput.value.trim();
+    const task = projectInput.value.trim();
+    const description = projectDescription.value.trim();
+    const priority = projectPriority.value.trim();
     if (task) {
         const newProject = new Project(Date.now(), task, description, priority, false, []);
         projects.push(newProject);
         renderProjects();
         saveProjects();
-        taskInput.value = "";
-        descriptionInput.value = "";
-        priorityInput.value = "";
+        projectInput.value = "";
+        projectDescription.value = "";
+        projectPriority.value = "";
         projectForm.classList.toggle("hidden");
     }
 });
@@ -119,13 +122,11 @@ projectCancelButton.addEventListener("click", () => {
     saveProjects();
 });
 tabBar.addEventListener("click", (event) => {
-    console.log(event.target);
     const target = event.target;
     if (target.tagName === "A") {
         tabBar.querySelectorAll("a").forEach((tab) => tab.classList.remove("text-blue-500"));
         target.classList.add("text-blue-500");
         currentFilter = target.getAttribute("href").substring(1);
-        console.log(currentFilter);
         renderTodos();
     }
 });

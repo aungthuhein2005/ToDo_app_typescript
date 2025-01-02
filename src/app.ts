@@ -41,7 +41,7 @@ enum Priority {
 }
 
 const taskInput = document.getElementById("todo-input") as HTMLInputElement;
-const descriptionInput = document.getElementById("todo-description") as HTMLInputElement;
+const descriptionInput = document.getElementById("todo-description") as HTMLTextAreaElement;
 const priorityInput = document.getElementById("todo-priority") as HTMLSelectElement; // Corrected the typo from 'priorityIpunt'
 const addButton = document.getElementById("add-button") as HTMLButtonElement;
 const todoList = document.getElementById("todo-list") as HTMLUListElement;
@@ -51,6 +51,10 @@ const addForm = document.querySelector("#edit-form") as HTMLFormElement;
 const formSave = document.querySelector("#form-save") as HTMLButtonElement;
 const formCancel = document.querySelector("#form-cancel") as HTMLButtonElement;
 const taskDetail = document.querySelector("#task-detail") as HTMLDivElement;
+
+const projectInput = document.querySelector("#project-input") as HTMLInputElement;
+const projectDescription = document.querySelector("#project-description") as HTMLInputElement;
+const projectPriority = document.querySelector("#project-priority") as HTMLSelectElement;
 
 const projectForm = document.getElementById("project-form") as HTMLFormElement;
 const projectSaveButton = document.getElementById("project-save") as HTMLButtonElement;
@@ -81,6 +85,7 @@ window.addEventListener("load", (): void => {
 });
 
 function saveTodos(): void {
+    
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 
@@ -95,7 +100,9 @@ addButton.addEventListener("click", (): void => {
 formSave.addEventListener("click", (): void => {
     const task: string = taskInput.value.trim();
     const description: string = descriptionInput.value.trim();
-    const priority: string = priorityInput.value.trim(); // Corrected the typo from 'priorityIpunt'
+    const priority: string = priorityInput.value; // Corrected the typo from 'priorityIpunt'
+
+    
     if (task) {
         const newTodo: Task = new Task(
             Date.now(),
@@ -110,7 +117,7 @@ formSave.addEventListener("click", (): void => {
         saveTodos();
         taskInput.value = "";
         descriptionInput.value = "";
-        priorityInput.value = ""; // Corrected the typo from 'priorityIpunt'
+        priorityInput.selectedIndex = 0; // Reset to default value
         addForm.classList.toggle("hidden");
     }
 });
@@ -127,9 +134,9 @@ addProjectButton.addEventListener("click", (): void => {
 });
 
 projectSaveButton.addEventListener("click", (): void => {
-    const task: string = taskInput.value.trim();
-    const description: string = descriptionInput.value.trim();
-    const priority: string = priorityInput.value.trim();
+    const task: string = projectInput.value.trim();
+    const description: string = projectDescription.value.trim();
+    const priority: string = projectPriority.value.trim();
     if (task) {
         const newProject: Project = new Project(
             Date.now(),
@@ -143,9 +150,9 @@ projectSaveButton.addEventListener("click", (): void => {
         projects.push(newProject);
         renderProjects();
         saveProjects();
-        taskInput.value = "";
-        descriptionInput.value = "";
-        priorityInput.value = "";
+        projectInput.value = "";
+        projectDescription.value = "";
+        projectPriority.value = "";
         projectForm.classList.toggle("hidden");
     }
 });
@@ -159,14 +166,12 @@ projectCancelButton.addEventListener("click", (): void => {
 });
 
 tabBar.addEventListener("click", (event: Event): void => {
-    console.log(event.target);
     
     const target = event.target as HTMLAnchorElement;
     if (target.tagName === "A") {
         tabBar.querySelectorAll("a").forEach((tab: HTMLAnchorElement) => tab.classList.remove("text-blue-500"));
         target.classList.add("text-blue-500");
         currentFilter = target.getAttribute("href")!.substring(1);
-        console.log(currentFilter);
         renderTodos();
     }
 });
