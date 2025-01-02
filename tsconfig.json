@@ -4,6 +4,7 @@
     "module": "NodeNext",             // Use NodeNext for module resolution
     "strict": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "moduleResolution": "NodeNext",   // Default to node module resolution
     "esModuleInterop": true,          // Enables interoperability between CommonJS and ES Modules
     "skipLibCheck": true,             // Skip checking libraries to avoid unnecessary errors
