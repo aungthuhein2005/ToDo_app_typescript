@@ -6,26 +6,68 @@
   <title>To-Do List</title>
   <link href="dist/styles.css" rel="stylesheet">
 </head>
+<style>
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+  .circle-checkbox {
+    appearance: none; /* Remove default checkbox styles */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc; /* Circle border */
+    border-radius: 50%; /* Make it a circle */
+    outline: none;
+    cursor: pointer;
+    position: relative; /* For pseudo-element positioning */
+    display: inline-block;
+    vertical-align: middle;
+    background: transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.circle-checkbox:checked::after {
+    content: '✔'; /* Checkmark symbol */
+    color: red;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+</style>
 <body>
-  <div class="container mx-auto w-1/2 p-4">
-    <h1 class="text-2xl text-bold">To-Do List</h1>
-    <nav class="my-2">
+  <div class="container mx-auto sm:w-full lg:w-10/12 p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div>
+        <h1 class="text-xl font-bold">Hey, Aung Thu</h1>
+        <span class="text-gray-500 text-xs">5 tasks for Today</span>
+      </div>
+      <div style="width: 45px; height: 45px; overflow: hidden; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; background-color: rgb(197, 246, 137); font-size: 20px; font-weight: bold; color: #555;">
+        <span>A</span>
+    </div>
+    
+    </div>
+    <nav class="mt-4">
         <ul class="tab-bar flex">
-            <li class="tab-item px-2"><a href="#all">All</a></li>
+            <li class="tab-item px-2"><a href="#all" class="text-blue-500">All</a></li>
             <li class="tab-item px-2"><a href="#active">Active</a></li>
             <li class="tab-item px-2"><a href="#completed">Completed</a></li>
         </ul>
     </nav>
-    <div class="text-end">
-      <button id="add-button" class="bg-green-500 text-white p-1 rounded-sm ms-2 my-2">Add New Task</button>
-    </div>
-    <div class="border shadow-md p-2 my-2 hidden" id="edit-form">
+    <div class="border shadow-md p-2 my-2  hidden" id="project-form">
         <div class="mb-2">
-            <label for="">Task Name</label>
+            <label for="">Project Name</label>
             <input type="text" name="" id="todo-input" class="border p-1 rounded-sm w-full">
         </div>
         <div class="mb-2">
-            <label for="">Task Description</label>
+            <label for="">Project Description</label>
             <textarea name="" id="todo-description" class="border p-1 rounded-sm w-full"></textarea>
         </div>
         <div class="mb-2">
@@ -38,14 +80,96 @@
             </select>
         </div>
         <div class="flex justify-end gap-4">
-            <button class="bg-green-500 text-white px-4 py-1 rounded-sm" id="form-save">Save</button>
-            <button class="bg-red-500 text-white px-4 py-1 rounded-sm" id="form-cancel">Cancel</button>
+            <button class="bg-green-500 text-white px-4 py-1 rounded-sm" id="project-save">Save</button>
+            <button class="bg-red-500 text-white px-4 py-1 rounded-sm" id="project-cancel">Cancel</button>
         </div>
     </div>
-    <ul id="todo-list">
+    <div class="border shadow-md p-2 my-2  hidden" id="edit-form">
+      <div class="mb-2">
+          <label for="">Task Name</label>
+          <input type="text" name="" id="todo-input" class="border p-1 rounded-sm w-full">
+      </div>
+      <div class="mb-2">
+          <label for="">Task Description</label>
+          <textarea name="" id="todo-description" class="border p-1 rounded-sm w-full"></textarea>
+      </div>
+      <div class="mb-2">
+          <label for="">Priority</label>
+          <select name="" id="todo-priority" class="border p-1 rounded-sm w-full">
+              <option value="">Choose Priority</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+          </select>
+      </div>
+      <div class="flex justify-end gap-4">
+          <button class="bg-green-500 text-white px-4 py-1 rounded-sm" id="form-save">Save</button>
+          <button class="bg-red-500 text-white px-4 py-1 rounded-sm" id="form-cancel">Cancel</button>
+      </div>
+  </div>
+    <div class="flex items-center justify-between">
+      <h3 class="text-md font-bold text-gray-500 my-2 py-2">Your Projects</h3>
+      <button class="border shadow-md text-gray-500 text-sm p-1 rounded-md flex items-center add-project-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <span class="ms-1">Add New Project</span>
+      </button>
+    </div>
+    <ul id="project-list" class="flex overflow-x-auto space-x-4 p-4 no-scrollbar">
+      
+      <li class="flex-shrink-0 w-64 cursor-pointer transition ease-in-out delay-15 hover:-translate-y-1  duration-300">
+          <div class="border p-2 rounded-md shadow-md relative">
+            <button class="absolute top-2 right-2 text-gray-500 p-1 rounded-full hover:bg-gray-100 options-button">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+              </svg>
+            </button>
+            <div
+      id="options-menu"
+      class="absolute top-10 right-2 bg-white border rounded-md shadow-md hidden"
+    >
+      <button class="block text-left w-full px-2 py-1 text-sm text-gray-700 hover:bg-gray-100">
+        Edit
+      </button>
+      <button class="block text-left w-full px-2 py-1 text-sm text-gray-700 hover:bg-gray-100">
+        Delete
+      </button>
+    </div>
+              <h3 class="text-md font-bold text-gray-500 my-2 py-2">Project 4</h3>
+              <p class="text-sm text-gray-500">This is a project description</p>
+              <span class="text-gray-500 text-xs font-medium">Total 12 tasks</span>
+              <div class=" mt-2 text-end">
+                <span class="text-gray-500 text-xs">80%</span>
+                <div class="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
+                  <div class="bg-blue-600 h-1 rounded-full" style="width: 50%"></div>
+                </div>
+              </div>
+              
+          </div>
+      </li>
+  </ul>
+    <div class="flex items-center justify-between">
+      <h3 class="text-md font-bold text-gray-500 my-2 py-2">Your Tasks</h3>
+      <button class="border shadow-md text-gray-500 text-sm p-1 rounded-md flex items-center" id="add-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <span class="ms-1">Add New Task</span>
+      </button>
+    </div>
+    <ul id="todo-list" class="">
     </ul>
     <div id="task-detail"></div>
   </div>
   <script src="/dist/app.js"></script>
+  <script>
+    document.querySelectorAll('.options-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const menu = button.nextElementSibling;
+        menu.classList.toggle('hidden');
+      });
+    });
+  </script>
 </body>
 </html>
