@@ -4,12 +4,9 @@
     "description": "This is ToDO app for typescirpt practice.",
     "main": "src/app.ts",
     "scripts": {
-        "start": "lite-server",
-        "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
-        "build:ts": "tsc",
-        "build": "npm run build:css && npm run build:ts",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
+        "build": "tsc && npx tailwindcss -i ./src/style.css -o ./public/output.css --minify",
+        "dev": "tsc --watch & npx tailwindcss -i ./src/style.css -o ./public/output.css --watch"
+      },
     "author": "aung thu hein",
     "license": "ISC",
     "devDependencies": {
@@ -21,6 +18,7 @@
     "dependencies": {
         "@heroicons/react": "^2.2.0",
         "lite-server": "^2.6.1",
+        "postcss-cli": "^11.0.0",
         "undici": "^7.2.0"
     }
 }
